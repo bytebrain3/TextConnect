@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Modal Popup</title>
+	 <script src="https://cdn.tailwindcss.com"></script>
+	 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body class="bg-zinc-700">
+    <div id="app" class="min-h-screen bg-zinc-700 w-full text-zinc-900  ">
+        
+        <div class="space-y-2 overflow-y-auto max-h-100vh flex absolute items-center w-full p-4 py-10">
+            <div class="bg-white shadow-lg  rounded-lg p-6 w-80 mx-auto w-full bg-zinc-900 text-white">
+            <h2 class="text-xl font-bold mb-4 flex justify-center" id="logo-text">___________</h2>
+            <p class="text-white-700 mb-2 h-90">
+
+
+
+Welcome to TextConnect, a global text-based communication platform designed to connect individuals from around the world. TextConnect allows users to engage in conversations with strangers, offering a unique opportunity to exchange ideas, make new friends, and experience diverse cultures.
+
+With a simple and intuitive interface, TextConnect enables users to connect with random people from any corner of the globe. Simply click the "Search" button, and you'll be instantly paired with someone new, making every conversation a new adventure. Whether you want to practice a new language, share experiences, or just have a friendly chat, TextConnect provides a dynamic and engaging space for all.
+
+Join TextConnect today and start exploring the world, one conversation at a time!
+            </p>
+
+        
+        
+         <div class="mb-6">
+
+            <input type="text" id="username" placeholder="Type Your Name To continue..." name="username" class="block w-full py-2 px-3 border border-black  text-white rounded-md focus:outline-none bg-slate-600">
+        </div>
+		<button class="bg-slate-700 text-white w-full h-10 rounded-lg flex items-center justify-center relative" id="btn">
+        	<img src="https://firebasestorage.googleapis.com/v0/b/dipxplore.appspot.com/o/App%2Fb4d657e7ef262b88eb5f7ac021edda87.gif?alt=media&token=b085235a-5886-4a7f-a849-95367299a3f4" alt="" class="w-5 h-5 absolute font-mono" id="loading" style="display: none;" >
+        	<span id="loadingMessage" class="uppercase font-bold font-mono font-xl">Search</span>
+        </button>
+        
+        </div>
+        </div>
+        
+    </div>
+
+<script>
+        $(document).ready(function() {
+                $("#btn").on("click", function() {
+				$("#loadingMessage").css('display', 'none'); // Hide the text
+				$("#loading").css('display', 'flex'); // Show the loader
+				const username = $("#username").val();
+				fetch('/submit-username', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ username: username }),
+				})
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('Network response was not ok: ' + response.statusText);
+					}
+					return response.json();
+				})
+				.then(data => {
+					$("#btn").css('display', 'none');
+					
+					window.location.href = "/chat_page";
+				})
+				.catch(error => {
+					alert('Error: ' + error.message);
+					console.error('There was an error:', error);
+					$("#loadingMessage").css('display', 'flex'); // Show the text
+					$("#loading").css('display', 'none'); // Hide the loader
+				});
+			});
+                    
+                    
+                    
+                    
+                
+                const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                const finalText = 'TextConnect';
+                const animationDuration = 1000; // Duration for each character animation in milliseconds
+                const frameRate = 100; // How often to update the text in milliseconds
+    
+                function getRandomChar() {
+                    const randomIndex = Math.floor(Math.random() * charSet.length);
+                    return charSet[randomIndex];
+                }
+    
+                function revealText() {
+                    $('#logo-text').html('___________');
+                    let currentIndex = 0;
+    
+                    function updateCharacter(index) {
+                        
+                        if (index < finalText.length) {
+                            let frame = 0;
+                            const intervalId = setInterval(() => {
+                                if (frame < animationDuration / frameRate) {
+                                    $('#logo-text').text((i) => {
+                                        const text = $('#logo-text').text();
+                                        return text.slice(0, index) + getRandomChar() + text.slice(index + 1);
+                                    });
+                                    frame++;
+                                } else {
+                                    $('#logo-text').text((i) => {
+                                        const text = $('#logo-text').text();
+                                        return text.slice(0, index) + finalText[index] + text.slice(index + 1);
+                                    });
+                                    clearInterval(intervalId);
+                                    currentIndex++;
+                                    updateCharacter(currentIndex);
+                                }
+                            }, frameRate);
+                        }
+                    }
+    
+                    updateCharacter(currentIndex);
+                }
+    
+                revealText();
+                
+                setInterval(revealText, 15000);
+            });
+</script>
+
+
+
+</body>
+</html>
