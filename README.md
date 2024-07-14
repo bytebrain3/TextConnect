@@ -1,6 +1,3 @@
-
-
-
 # Text-Based Random Chat System
 
 ## Description
@@ -60,7 +57,7 @@ This application is designed for scenarios where users want to have anonymous, r
 Here is an example screenshot of the application in action:
 
 ![Application Screenshot](asset/index.jpg)
-![ScreenShot join room](asset/join.jgp)
+![ScreenShot join](asset/join.jpg)
 ![message screenshot](asset/message.jpg)
 
 ## Routes
