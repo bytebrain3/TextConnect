@@ -4,7 +4,7 @@ import random, hashlib, requests
 from flask import Flask, render_template, jsonify, redirect, url_for, session, request
 from flask_session import Session
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
-
+import os
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "aj Ami sob harano"
@@ -12,7 +12,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
 socketio = SocketIO(app)
-
+databaseurl = os.getenv('url')
 
 room_id = None
 second_uid=None
@@ -21,7 +21,7 @@ first_user_sid=None
 
 cred = credentials.Certificate("cred.json")
 firebase_admin.initialize_app(cred, {
-	"databaseURL": "real time database url"
+	"databaseURL": databaseurl
 })
 
 @app.route("/")
