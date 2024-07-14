@@ -21,7 +21,7 @@ first_user_sid=None
 
 cred = credentials.Certificate("cred.json")
 firebase_admin.initialize_app(cred, {
-	"databaseURL": "https://random-chat0-default-rtdb.europe-west1.firebasedatabase.app/"
+	"databaseURL": "real time database url"
 })
 
 @app.route("/")
